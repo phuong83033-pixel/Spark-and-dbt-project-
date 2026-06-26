@@ -22,7 +22,7 @@ class transformations:
         merge_condition =" AND " .join([f"src.{i} = trg.{i}" for i in key_cols])
         dlt_obj = DeltaTable.forName(spark, f"pysparkdbt.silver.{table}")
         dlt_obj.alias("trg").merge(df.alias("src"),merge_condition)\
-            .whenMatchedUpdateAll(condition = "src.{cdc} >= trg.{cdc}")\
+            .whenMatchedUpdateAll(condition = f"src.{cdc} >= trg.{cdc}")\
             .whenNotMatchedInsertAll()\
             .execute()              
         return 1
